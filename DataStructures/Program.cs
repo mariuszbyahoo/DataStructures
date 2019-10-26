@@ -13,14 +13,7 @@ namespace DataStructures
         static void Main(string[] args)
         {
             var buffer = new Buffer<double>();
-            Action<bool> print = d => Console.WriteLine(d);
 
-            Func<double, double> square = d => d * d;
-            Func<double, double, double> add = (x , y) => x + y;
-            Predicate<double> isLessThanTen = d => d < 10;
-
-            print(isLessThanTen(square(add(3, 5))));
-            
             ProcessInput(buffer);
 
             Action<double> consoleOut = delegate (double data)
@@ -38,14 +31,16 @@ namespace DataStructures
 
             // Without any Action's declaring et cetera, just use lambda expression:
 
-            buffer.Dump(d => Console.WriteLine(d));
+            Converter<double, DateTime> converter = d => new DateTime(2010, 1, 1).AddDays(d);
+            var asDates = buffer.Map(converter);
 
-            var asInts = buffer.AsEnumerableOf<double, int>();
-            Console.WriteLine("Buffer's numbers as ints:");
-            foreach (var item in asInts)
+            foreach (var item in asDates)
             {
                 Console.WriteLine(item);
             }
+
+            buffer.Dump(d => Console.WriteLine(d));
+
             ProcessBuffer(buffer);
             Console.WriteLine("Press enter to exit...");
             Console.ReadLine();

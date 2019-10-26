@@ -16,18 +16,19 @@ namespace DataStructures
                 print(item);
             }
         }
-        public static IEnumerable<TOutput> AsEnumerableOf<T, TOutput>(
-            this IBuffer<T> buffer)
+        public static IEnumerable<TOutput> Map<T, TOutput>(
+            this IBuffer<T> buffer, Converter<T, TOutput> converter)
         {
-            var converter = TypeDescriptor.GetConverter(typeof(T));
+            return buffer.Select(i => converter(i));
 
-            foreach (var item in buffer)
+            // Same result from the statement above like in foreach below:
+
+            /*foreach (var item in buffer)
             {
-                var result = converter.ConvertTo(
-                    item, typeof(TOutput));
+                TOutput result = converter(item);
 
-                yield return (TOutput)result;
-            }
+                yield return result;
+            }*/
         }
 
     }
