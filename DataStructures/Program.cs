@@ -12,8 +12,8 @@ namespace DataStructures
 
         static void Main(string[] args)
         {
-            var buffer = new Buffer<double>();
-
+            var buffer = new CircularBuffer<double>(capacity: 3);
+            buffer.ItemDiscarded += buffer_ItemDiscarded ;
             ProcessInput(buffer);
 
             Action<double> consoleOut = delegate (double data)
@@ -45,6 +45,14 @@ namespace DataStructures
             Console.WriteLine("Press enter to exit...");
             Console.ReadLine();
         }
+
+        static void buffer_ItemDiscarded(object sender,
+            ItemDiscardedEventArgs<double> e)
+        {
+            Console.WriteLine("Buffer full. Discarding {0} New item is {1}",
+                e.ItemDiscarded, e.NewItem);
+        }
+
 
         private static void ProcessBuffer(IBuffer<double> buffer)
         {
