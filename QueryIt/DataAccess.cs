@@ -52,7 +52,7 @@ namespace QueryIt
 
         public IQueryable<T> FindAll()
         {
-            throw new NotImplementedException();
+            return _set;
         }
 
         public T FindById(int id)
