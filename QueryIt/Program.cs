@@ -15,6 +15,7 @@ namespace QueryIt
                 new SqlRepository<Employee>(new EmployeeDb()))
             {
                 AddEmployees(employeeRepository);
+                AddManagers(employeeRepository);
                 CountEmployees(employeeRepository);
 
                 QueryEmployees(employeeRepository);
@@ -30,6 +31,12 @@ namespace QueryIt
             // AddManager(repository);
             // CountEmployees(repository);
             // PrintAllPeople(repository);
+        }
+
+        private static void AddManagers(IWriteOnlyRepository<Manager> employeeRepository)
+        {
+            employeeRepository.Add(new Manager { Name = "Alex" });
+            employeeRepository.Commit();
         }
 
         private static void DumpPeople(IReadOnlyRepository<Person> employeeRepository)
@@ -52,7 +59,7 @@ namespace QueryIt
             Console.WriteLine(employeeRepository.FindAll().Count());
         }
 
-        private static void AddEmployees(IRepository<Employee> employeeRepository)
+        private static void AddEmployees(IWriteOnlyRepository<Employee> employeeRepository)
         {
             employeeRepository.Add(new Employee { Name = "Scott" });
             employeeRepository.Add(new Employee { Name = "Chris" });
