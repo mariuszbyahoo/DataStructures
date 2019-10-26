@@ -11,12 +11,16 @@ namespace DataStructures
             
             ProcessInput(buffer);
 
-            foreach (var item in buffer)
+            var asInts = buffer.AsEnumerableOf<int>();
+
+            foreach (var item in asInts)
             {
                 Console.WriteLine(item);
             }
 
             ProcessBuffer(buffer);
+            Console.WriteLine("Press enter to exit...");
+            Console.ReadLine();
         }
 
         private static void ProcessBuffer(IBuffer<double> buffer)
@@ -32,6 +36,7 @@ namespace DataStructures
 
         private static void ProcessInput(IBuffer<double> buffer)
         {
+            Console.WriteLine("Write some doubles: ");
             while (true)
             {
                 var value = 0.0;
@@ -42,6 +47,7 @@ namespace DataStructures
                     buffer.Write(value);
                     continue;
                 }
+                Console.WriteLine($"value {value} cannot be converted to double");
                 break;
             }
         }
