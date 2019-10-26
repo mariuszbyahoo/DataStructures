@@ -20,7 +20,8 @@ namespace QueryIt
         int Commit();
     }
 
-    public class SqlRepository<T> : IRepository<T> where T: class, IEntity
+    public class SqlRepository<T> : IRepository<T> 
+        where T: Person , IEntity
     {
         DbContext _ctx;
         DbSet<T> _set;
@@ -58,7 +59,7 @@ namespace QueryIt
 
         public T FindById(int id)
         {
-            throw new NotImplementedException();
+            return _set.Find(id);
         }
     }
 }
