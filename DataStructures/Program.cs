@@ -4,6 +4,12 @@ namespace DataStructures
 {
     class Program
     {
+
+        static void ConsoleWrite(object data)
+        {
+            Console.WriteLine(data);
+        }
+
         static void Main(string[] args)
         {
             var buffer = new Buffer<double>();
@@ -11,13 +17,16 @@ namespace DataStructures
             
             ProcessInput(buffer);
 
-            var asInts = buffer.AsEnumerableOf<int>();
+            Printer<double> consoleOut = new Printer<double>(ConsoleWrite);
 
+            buffer.Dump(consoleOut);
+
+            var asInts = buffer.AsEnumerableOf<double, int>();
+            Console.WriteLine("Buffer's numbers as ints:");
             foreach (var item in asInts)
             {
                 Console.WriteLine(item);
             }
-
             ProcessBuffer(buffer);
             Console.WriteLine("Press enter to exit...");
             Console.ReadLine();
