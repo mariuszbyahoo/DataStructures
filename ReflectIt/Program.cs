@@ -8,8 +8,8 @@ namespace ReflectIt
         static void Main(string[] args)
         {
             var employeeList = CreateCollection(typeof(List<>), typeof(Employee));
-            Console.WriteLine(employeeList.GetType().Name);
-            Console.WriteLine(employeeList.GetType().FullName);
+            //Console.WriteLine(employeeList.GetType().Name);
+            //Console.WriteLine(employeeList.GetType().FullName);
             var genericArguments = employeeList.GetType().GenericTypeArguments;
 
             foreach (var arg in genericArguments)
@@ -17,6 +17,12 @@ namespace ReflectIt
                 Console.WriteLine("[{0}]", arg.Name);
             }
             Console.WriteLine();
+
+            var employee = new Employee();
+            var employeeType = typeof(Employee);
+            var methodInfo = employeeType.GetMethod("Speak");
+            methodInfo = methodInfo.MakeGenericMethod(typeof(DateTime));
+            methodInfo.Invoke(employee, null);
         }
 
         private static object CreateCollection(Type collectionType, Type itemType)
@@ -29,5 +35,10 @@ namespace ReflectIt
     public class Employee
     {
         public string Name { get; set; }
+
+        public void Speak<T>()
+        {
+            Console.WriteLine(typeof(T).Name);
+        }
     }
 }
