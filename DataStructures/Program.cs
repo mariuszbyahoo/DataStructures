@@ -13,13 +13,32 @@ namespace DataStructures
         static void Main(string[] args)
         {
             var buffer = new Buffer<double>();
+            Action<bool> print = d => Console.WriteLine(d);
 
+            Func<double, double> square = d => d * d;
+            Func<double, double, double> add = (x , y) => x + y;
+            Predicate<double> isLessThanTen = d => d < 10;
+
+            print(isLessThanTen(square(add(3, 5))));
             
             ProcessInput(buffer);
 
-            Printer<double> consoleOut = new Printer<double>(ConsoleWrite);
+            Action<double> consoleOut = delegate (double data)
+            {
+                Console.WriteLine(data);
+            };
+
+            // OR
+
+            // Action<double> consoleOut = d => Console.WriteLine(d); 
 
             buffer.Dump(consoleOut);
+
+            // OR
+
+            // Without any Action's declaring et cetera, just use lambda expression:
+
+            buffer.Dump(d => Console.WriteLine(d));
 
             var asInts = buffer.AsEnumerableOf<double, int>();
             Console.WriteLine("Buffer's numbers as ints:");
